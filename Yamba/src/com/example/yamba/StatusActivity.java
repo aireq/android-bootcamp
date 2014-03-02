@@ -10,9 +10,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class StatusActivity extends Activity implements OnClickListener {
+public class StatusActivity extends Activity {
 
-	Button postStatusButton;
+
 	EditText status_editText;
 	
 	
@@ -28,14 +28,7 @@ public class StatusActivity extends Activity implements OnClickListener {
 		
 		
 		//gets references to widgets
-		postStatusButton = (Button)findViewById(R.id.postStatusButton);
 		status_editText = (EditText)findViewById(R.id.editStatusText);
-		
-		
-		//sets this class as the click listener
-		postStatusButton.setOnClickListener(this);
-		
-		
 		
 	}
 
@@ -46,23 +39,15 @@ public class StatusActivity extends Activity implements OnClickListener {
 		return true;
 	}
 
-	@Override
+
 	public void onClick(View arg0) {
+		
 		// TODO Auto-generated method stub
-		
-		
 		String text = status_editText.getText().toString();
-		
-		
-		
 		Log.d("StatusActivity","Button Clicked! Test is "+text );
 		
-		
-		
-		
+
 	
-		
-		
 		
 	}
 
