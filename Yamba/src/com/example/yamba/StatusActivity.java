@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.EditText;
@@ -35,14 +36,38 @@ public class StatusActivity extends Activity {
 
 	}
 
+	
+
+	
+	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.status, menu);
+		// TODO Auto-generated method stub
+		
+		
+	
+		getMenuInflater().inflate(R.menu.menu, menu);
+		
 		return true;
+		
 	}
-	
-	
+
+
+
+
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return super.onOptionsItemSelected(item);
+	}
+
+
+
+
+
 
 	@Override
 	protected void onStop() {
