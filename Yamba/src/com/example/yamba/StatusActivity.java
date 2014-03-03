@@ -3,6 +3,7 @@ package com.example.yamba;
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,33 +45,47 @@ public class StatusActivity extends Activity {
 		final String statusText = status_editText.getText().toString();
 		Log.d(LOG_TAG, "Posting new status: " + statusText);
 
-		// This creates a new thread pointing to an anonymous method, and then
-		// starts it
-		Thread t = new Thread() {
-			public void run() {
-
-				try {
-					String user = "student";
-					String pass = "password";
-					Twitter twitter = new Twitter(user, pass);
-					twitter.setAPIRootUrl("http://yamba.marakana.com/api");
-					twitter.setStatus(statusText);
-					Log.d(LOG_TAG, "Successfuly posted status: " + statusText);
-					
-					
-					Toast.makeText(StatusActivity.this, "Succesfuly Posted", Toast.LENGTH_SHORT).show();
-
-				} catch (TwitterException e) {
-
-					Log.e(LOG_TAG, "Error posting status", e);
-
-					e.printStackTrace();
-
-				}
-			}
-		};
-		
-		t.start();
+		new PostToTwitter().execute(statusText);
 
 	}
+
+	// <params, progress, result>
+	class PostToTwitter extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... statusText) {
+
+			// this happens on alternate thread
+
+			try {
+				String user = "student";
+				String pass = "password";
+				Twitter twitter = new Twitter(user, pass);
+				twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+				twitter.setStatus(statusText[0]);
+
+				Log.d(LOG_TAG, "Successfuly posted status: " + statusText[0]);
+
+				return "Posted Status Succeeded";
+
+			} catch (TwitterException e) {
+
+				Log.e(LOG_TAG, "Error posting status", e);
+
+				return "Posting Status Failed!";
+
+			}
+
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// this happens on UI Thread
+
+			Toast.makeText(StatusActivity.this, result, Toast.LENGTH_SHORT)
+					.show();
+		}
+
+	}
+
 }
