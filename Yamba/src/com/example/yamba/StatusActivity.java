@@ -5,7 +5,6 @@ import winterwell.jtwitter.TwitterException;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
