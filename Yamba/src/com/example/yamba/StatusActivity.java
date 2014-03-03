@@ -5,6 +5,7 @@ import winterwell.jtwitter.TwitterException;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -21,6 +22,9 @@ public class StatusActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//starts method tracing
+		Debug.startMethodTracing("Yamba");
 
 		// this line uses R to lookup activity_status.xml
 		// reads XML and creates java classes and set's properties
@@ -37,6 +41,18 @@ public class StatusActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.status, menu);
 		return true;
+	}
+	
+	
+
+	@Override
+	protected void onStop() {
+		//good to use onStop because this can be controls
+		//onStop happens when pressing back button or switching to another activity
+		
+		super.onStop();
+		
+		Debug.stopMethodTracing();
 	}
 
 	public void onClick(View arg0) {
@@ -56,6 +72,7 @@ public class StatusActivity extends Activity {
 		protected String doInBackground(String... statusText) {
 
 			// this happens on alternate thread
+			
 
 			try {
 				String user = "student";
