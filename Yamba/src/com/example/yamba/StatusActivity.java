@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class StatusActivity extends Activity {
 
@@ -55,6 +56,9 @@ public class StatusActivity extends Activity {
 					twitter.setAPIRootUrl("http://yamba.marakana.com/api");
 					twitter.setStatus(statusText);
 					Log.d(LOG_TAG, "Successfuly posted status: " + statusText);
+					
+					
+					Toast.makeText(StatusActivity.this, "Succesfuly Posted", Toast.LENGTH_SHORT).show();
 
 				} catch (TwitterException e) {
 
