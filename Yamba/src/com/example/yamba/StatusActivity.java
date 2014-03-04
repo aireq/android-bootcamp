@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +26,7 @@ public class StatusActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// starts method tracing
-		// Debug.startMethodTracing("Yamba");
+		 Debug.startMethodTracing("Yamba");
 
 		// this line uses R to lookup activity_status.xml
 		// reads XML and creates java classes and set's properties
@@ -85,7 +86,7 @@ public class StatusActivity extends Activity {
 
 		super.onStop();
 
-		// Debug.stopMethodTracing();
+		 Debug.stopMethodTracing();
 	}
 
 	public void onClick(View arg0) {
