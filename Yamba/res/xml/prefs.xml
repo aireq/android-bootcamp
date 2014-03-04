@@ -6,6 +6,12 @@
         
         android:password="true"
         />
+    <EditTextPreference android:title="@string/delay" android:summary="@string/delay_summary" android:key="delay"
+        
+        
+        android:inputType="number"
+        
+        />
     
 
 </PreferenceScreen>

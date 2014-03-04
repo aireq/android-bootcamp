@@ -12,7 +12,7 @@ import android.util.Log;
 public class UpdaterService extends Service {
 
 	static final String LOG_TAG = "UpdaterService";
-	static final int DELAY = 10000;
+
 	boolean running = false;
 
 	@Override
@@ -23,13 +23,10 @@ public class UpdaterService extends Service {
 		return null;
 	}
 
-
-
 	@Override
 	public void onCreate() {
 
 		super.onCreate();
-
 
 		Log.d(LOG_TAG, "onCreate");
 	}
@@ -37,28 +34,29 @@ public class UpdaterService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
-		
 		running = true;
-		
+
 		new Thread() {
 			public void run() {
 
 				try {
 
 					while (running) {
-						
-						List<Status> timeLine = ((YambaApp)getApplication()).getTwitter().getPublicTimeline();
 
-			
+						List<Status> timeLine = ((YambaApp) getApplication())
+								.getTwitter().getPublicTimeline();
 
 						for (Status status : timeLine) {
 							Log.d(LOG_TAG, String.format("%s: %s",
 									status.user.name, status.text));
 						}
 
-						
-						
-						Thread.sleep(DELAY);
+
+						int delay = Integer
+								.parseInt(((YambaApp) getApplication()).prefs
+										.getString("delay", "30"));
+
+						Thread.sleep(delay * 1000);
 					}
 				}
 
@@ -81,7 +79,7 @@ public class UpdaterService extends Service {
 	public void onDestroy() {
 
 		super.onDestroy();
-		
+
 		running = false;
 
 		Log.d(LOG_TAG, "onDestroy");

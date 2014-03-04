@@ -15,5 +15,7 @@
     <string name="server_summary">Enter the server address</string>
     <string name="password_summary">Enter your password</string>
     <string name="preferences">Preferences</string>
+    <string name="delay_summary">Interval in seconds to check for updates</string>
+    <string name="delay">Delay</string>
 
 </resources>

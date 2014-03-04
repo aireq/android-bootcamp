@@ -26,7 +26,7 @@ public class StatusActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// starts method tracing
-		Debug.startMethodTracing("Yamba");
+		//Debug.startMethodTracing("Yamba");
 
 		// this line uses R to lookup activity_status.xml
 		// reads XML and creates java classes and set's properties
@@ -104,7 +104,7 @@ public class StatusActivity extends Activity {
 
 		super.onStop();
 
-		Debug.stopMethodTracing();
+		//Debug.stopMethodTracing();
 	}
 
 	public void onClick(View arg0) {
