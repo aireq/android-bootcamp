@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.yamba"
+<manifest package="com.example.yamba"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -12,9 +11,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name="com.example.yamba.YambaApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+        
+        
         <activity
             android:name="com.example.yamba.StatusActivity"
             android:label="@string/app_name" >
@@ -27,6 +29,7 @@
 
         <service android:name="com.example.yamba.UpdaterService"/>
         <service android:name="com.example.yamba.RefreshService"/>
+        <activity android:name="com.example.yamba.PrefsActivity"></activity>
         
     </application>
 

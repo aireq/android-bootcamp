@@ -8,5 +8,12 @@
     <string name="start_service">Start Service</string>
     <string name="stop_service">Stop Service</string>
     <string name="refresh">Refresh</string>
+    <string name="user_name">User Name</string>
+    <string name="username_summary">Enter your login user name</string>
+    <string name="server">Server</string>
+    <string name="password">Password</string>
+    <string name="server_summary">Enter the server address</string>
+    <string name="password_summary">Enter your password</string>
+    <string name="preferences">Preferences</string>
 
 </resources>

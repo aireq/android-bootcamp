@@ -53,15 +53,14 @@ public class StatusActivity extends Activity {
 
 		// Service intent is created with a context, and a reference to a
 		// service class
-		
-		
+
 		Intent intent;
 
 		switch (item.getItemId()) {
 
 		case R.id.item_start_service:
 
-			intent =   new Intent(this, UpdaterService.class);
+			intent = new Intent(this, UpdaterService.class);
 
 			startService(intent);
 
@@ -69,22 +68,26 @@ public class StatusActivity extends Activity {
 
 		case R.id.item_stop_service:
 
-			intent =   new Intent(this, UpdaterService.class);
+			intent = new Intent(this, UpdaterService.class);
 
 			stopService(intent);
 
 			return true; // button was handled
 
 		case R.id.item_refresh:
-			
+
 			intent = new Intent(this, RefreshService.class);
-			
+
 			startService(intent);
 
-			
 			return true;
-			
-			
+
+		case R.id.item_prefs:
+
+			startActivity(new Intent(this,PrefsActivity.class));
+
+			return true;
+
 		default:
 
 			return false; // button was not handled

@@ -2,7 +2,6 @@ package com.example.yamba;
 
 import java.util.List;
 
-import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.Twitter.Status;
 import winterwell.jtwitter.TwitterException;
 import android.app.IntentService;
@@ -12,7 +11,6 @@ import android.util.Log;
 public class RefreshService extends IntentService {
 
 	static final String LOG_TAG = "RefreshService";
-	Twitter twitter;
 
 	public RefreshService() {
 		super(LOG_TAG);
@@ -22,10 +20,10 @@ public class RefreshService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 
 		try {
-			twitter = new Twitter("student", "password");
-			twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+		
+			List<Status> timeLine = ((YambaApp)getApplication()).getTwitter().getPublicTimeline();
 
-			List<Status> timeLine = twitter.getPublicTimeline();
+			
 
 			for (Status status : timeLine) {
 				Log.d(LOG_TAG,
@@ -44,9 +42,6 @@ public class RefreshService extends IntentService {
 	public void onCreate() {
 
 		super.onCreate();
-
-		twitter = new Twitter("student", "password");
-		twitter.setAPIRootUrl("http://yamba.marakana.com/api");
 
 		Log.d(LOG_TAG, "onCreate");
 	}
