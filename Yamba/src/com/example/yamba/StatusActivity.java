@@ -26,7 +26,7 @@ public class StatusActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// starts method tracing
-		 Debug.startMethodTracing("Yamba");
+		Debug.startMethodTracing("Yamba");
 
 		// this line uses R to lookup activity_status.xml
 		// reads XML and creates java classes and set's properties
@@ -51,25 +51,40 @@ public class StatusActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		//Service intent is created with a context, and a reference to a service class
-		Intent intent = new Intent(this,UpdaterService.class);
+		// Service intent is created with a context, and a reference to a
+		// service class
 		
 		
+		Intent intent;
+
 		switch (item.getItemId()) {
 
 		case R.id.item_start_service:
-			
+
+			intent =   new Intent(this, UpdaterService.class);
+
 			startService(intent);
 
 			return true; // button was handled
 
 		case R.id.item_stop_service:
-			
-			
+
+			intent =   new Intent(this, UpdaterService.class);
+
 			stopService(intent);
 
 			return true; // button was handled
 
+		case R.id.item_refresh:
+			
+			intent = new Intent(this, RefreshService.class);
+			
+			startService(intent);
+
+			
+			return true;
+			
+			
 		default:
 
 			return false; // button was not handled
@@ -86,7 +101,7 @@ public class StatusActivity extends Activity {
 
 		super.onStop();
 
-		 Debug.stopMethodTracing();
+		Debug.stopMethodTracing();
 	}
 
 	public void onClick(View arg0) {
