@@ -4,6 +4,7 @@ import java.util.List;
 
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.Twitter.Status;
+import winterwell.jtwitter.TwitterException;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -30,27 +31,29 @@ public class UpdaterService extends Service {
 		
 		twitter = new Twitter("student","password");
 		twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+		
 		Log.d(LOG_TAG, "onCreate");
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
-		List<Status> timeLine = twitter.getPublicTimeline();
+		new Thread() {
+			public void run() {
+				try {
+					List<Status> timeLine = twitter.getPublicTimeline();
+					for (Status status : timeLine) {
+						Log.d(LOG_TAG, String.format("%s: %s",
+								status.user.name, status.text));
+					}
+				} catch (TwitterException e) {
+					// TODO: handle exception
+				}
+			}
+		}.start();
 		
-		for(Status status: timeLine)
-		{
-			Log.d(LOG_TAG,String.format("%s: %s", status.user.name,status.text));
-		}
 		
-		
-		
-		
-		
-		
-
 		Log.d(LOG_TAG, "onStartCommand");
-		
 		return super.onStartCommand(intent, flags, startId);
 		
 	}
