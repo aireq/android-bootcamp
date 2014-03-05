@@ -6,12 +6,7 @@
         
         android:password="true"
         />
-    <EditTextPreference android:title="@string/delay" android:summary="@string/delay_summary" android:key="delay"
-        
-        
-        android:inputType="number"
-        
-        />
+    <ListPreference android:summary="@string/delay_summary" android:title="@string/delay" android:key="delay" android:entries="@array/delayNames" android:entryValues="@array/delayValues"/>
     
 
 </PreferenceScreen>
