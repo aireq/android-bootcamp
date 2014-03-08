@@ -52,14 +52,15 @@ public class StatusData {
 		ContentValues values = new ContentValues();
 		values.put(C_ID, status.id);
 		
-		//stores values as miliseconds since 1/1/1970
+		//stores values as milliseconds since 1/1/1970
 		values.put(C_CREATED_AT, status.createdAt.getTime());
 		
 		
 		values.put(C_USER, status.user.name);
 		values.put(C_TEXT, status.text);
 		
-		db.insert(TABLE, null, values);
+		
+		db.insertWithOnConflict(TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 		
 		
 		
