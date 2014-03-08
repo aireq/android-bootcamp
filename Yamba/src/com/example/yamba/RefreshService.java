@@ -24,10 +24,14 @@ public class RefreshService extends IntentService {
 			List<Status> timeLine = ((YambaApp)getApplication()).getTwitter().getPublicTimeline();
 
 			
+			StatusData statusData = ((YambaApp)getApplication()).statusData;
+			
 
 			for (Status status : timeLine) {
 				Log.d(LOG_TAG,
 						String.format("%s: %s", status.user.name, status.text));
+				
+				statusData.insert(status);
 			}
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block

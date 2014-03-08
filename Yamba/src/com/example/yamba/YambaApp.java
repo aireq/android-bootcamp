@@ -13,6 +13,7 @@ public class YambaApp extends Application implements OnSharedPreferenceChangeLis
 	private Twitter twitter;
 
 	SharedPreferences prefs;
+	StatusData statusData;
 
 	public Twitter getTwitter() {
 
@@ -39,6 +40,8 @@ public class YambaApp extends Application implements OnSharedPreferenceChangeLis
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		prefs.registerOnSharedPreferenceChangeListener(this);
+		
+		statusData = new StatusData(this);
 
 		Log.d(LOG_TAG, "onCreate");
 	}
