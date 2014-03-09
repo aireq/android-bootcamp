@@ -14,6 +14,7 @@ public class YambaApp extends Application implements OnSharedPreferenceChangeLis
 
 	SharedPreferences prefs;
 	StatusData statusData;
+	
 
 	public Twitter getTwitter() {
 

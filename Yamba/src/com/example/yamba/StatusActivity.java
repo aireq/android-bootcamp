@@ -87,6 +87,15 @@ public class StatusActivity extends Activity {
 			startActivity(new Intent(this,PrefsActivity.class));
 
 			return true;
+			
+		
+		case R.id.item_timeline:
+			startActivity(new Intent(this,TimelineActivity.class));
+			
+			return true;
+		
+			
+		
 
 		default:
 

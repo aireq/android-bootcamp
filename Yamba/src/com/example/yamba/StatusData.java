@@ -1,8 +1,12 @@
 package com.example.yamba;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import winterwell.jtwitter.Twitter.Status;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -26,52 +30,49 @@ public class StatusData {
 	Context context;
 	DbHelper dbHelper;
 	SQLiteDatabase db;
-	
-	public StatusData(Context context)
-	{
+
+	public StatusData(Context context) {
 		this.context = context;
-		
+
 		dbHelper = new DbHelper();
-		
+
 	}
-	
-	public void insert(Status status)
-	{
-		
+
+	public void insert(Status status) {
+
 		db = dbHelper.getWritableDatabase();
-		
-		
-		
-				
-		//this is bad, will allow sync injection
-		//also slow because
-		//String sql = "Insert into status () values ()"
-		//db.execSQL(sql);
-		
-		
+
+		// this is bad, will allow sync injection
+		// also slow because
+		// String sql = "Insert into status () values ()"
+		// db.execSQL(sql);
+
 		ContentValues values = new ContentValues();
 		values.put(C_ID, status.id);
-		
-		//stores values as milliseconds since 1/1/1970
+
+		// stores values as milliseconds since 1/1/1970
 		values.put(C_CREATED_AT, status.createdAt.getTime());
-		
-		
+
 		values.put(C_USER, status.user.name);
 		values.put(C_TEXT, status.text);
-		
-		
-		db.insertWithOnConflict(TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-		
-		
-		
-		
-		
+
+		db.insertWithOnConflict(TABLE, null, values,
+				SQLiteDatabase.CONFLICT_IGNORE);
+
 	}
-	
-	
-	
-	
-	
+
+	public Cursor query() {
+
+		List<Status> list = new ArrayList<Status>();
+
+		db = dbHelper.getReadableDatabase();
+
+		Cursor cursor = db.query(TABLE, null, null, null, null, null,
+				C_CREATED_AT + " DESC"); // SELECT * from status
+
+		return cursor;
+
+	}
 
 	// this is an inner class because it doesn't needs to be exposed outside
 	// StatusData
@@ -99,26 +100,22 @@ public class StatusData {
 
 			try {
 				db.execSQL(sql);
-				
-				Log.d(LOG_TAG,"Created table:"+ sql);
-				
+
+				Log.d(LOG_TAG, "Created table:" + sql);
 
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			
 
-			
 		}
 
 		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) 
-		{
-			//Typicaly ALTER TABLE statement to keep existing data!!!
-			
-			//Can do this for development
-			//Will drop and recreate the table if the database is updated
-			db.execSQL("drop if exists "+TABLE);
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			// Typicaly ALTER TABLE statement to keep existing data!!!
+
+			// Can do this for development
+			// Will drop and recreate the table if the database is updated
+			db.execSQL("drop if exists " + TABLE);
 			onCreate(db);
 
 		}

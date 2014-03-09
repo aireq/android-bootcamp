@@ -27,17 +27,21 @@
             </intent-filter>
         </activity>
 
+
         <service android:name="com.example.yamba.UpdaterService" />
         <service android:name="com.example.yamba.RefreshService" />
 
-        <activity android:name="com.example.yamba.PrefsActivity" >
-        </activity>
+        <activity android:name="com.example.yamba.TimelineActivity" />
+        <activity android:name="com.example.yamba.PrefsActivity" />
+        
 
         <receiver android:name="com.example.yamba.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        
     </application>
 
 </manifest>
