@@ -1,21 +1,20 @@
 package com.example.yamba;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import winterwell.jtwitter.Twitter.Status;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
+
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class StatusData {
 	// C_ means column
 
-	static final String LOG_TAG = "StatusData";
+	static final String TAG = "StatusData";
 	public static final String C_ID = "_id";
 	public static final String C_CREATED_AT = "created_at";
 	public static final String C_USER = "username";
@@ -63,12 +62,23 @@ public class StatusData {
 
 	public Cursor query() {
 
-		List<Status> list = new ArrayList<Status>();
+	
 
 		db = dbHelper.getReadableDatabase();
+		
+		
 
 		Cursor cursor = db.query(TABLE, null, null, null, null, null,
 				C_CREATED_AT + " DESC"); // SELECT * from status
+		
+
+		
+		
+		
+		
+		Log.d(TAG,"Got cursor with columns: " );
+		
+		
 
 		return cursor;
 
@@ -93,15 +103,15 @@ public class StatusData {
 			String sql;
 
 			sql = String.format("create table %s"
-					+ "(%S int primary key, %s int,%s text, %s text)", TABLE,
+					+ "(%s int primary key, %s int,%s text, %s text)", TABLE,
 					C_ID, C_CREATED_AT, C_USER, C_TEXT);
 
-			Log.d(LOG_TAG, "onCreate");
+			Log.d(TAG, "onCreate");
 
 			try {
 				db.execSQL(sql);
 
-				Log.d(LOG_TAG, "Created table:" + sql);
+				Log.d(TAG, "Created table:" + sql);
 
 			} catch (Exception e) {
 				// TODO: handle exception

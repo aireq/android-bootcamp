@@ -16,15 +16,9 @@
         android:text="@string/timeline"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/item_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:id="@+id/timeline_textview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </ScrollView>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
