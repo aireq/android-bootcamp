@@ -1,22 +1,18 @@
 package com.example.yamba;
 
-import android.os.Bundle;
-import android.provider.VoicemailContract.Status;
-import android.app.Activity;
+import android.app.ListActivity;
 import android.database.Cursor;
-
+import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
-
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
-public class TimelineActivity extends Activity {
+public class TimelineActivity extends ListActivity {
 
-	ListView list;
 	Cursor cursor;
 
 	static final String[] FROM = { StatusData.C_USER, StatusData.C_TEXT, StatusData.C_CREATED_AT };
@@ -30,10 +26,14 @@ public class TimelineActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_timeline);
+
 
 		try {
-			list = (ListView) findViewById(R.id.item_list);
+			
+			//these two lines are equivalent
+			//list = (ListView) findViewById(android.R.id.list); 
+			ListView list = getListView();
+			
 			cursor = ((YambaApp) getApplication()).statusData.query();
 
 			
@@ -41,8 +41,12 @@ public class TimelineActivity extends Activity {
 			adapter = new SimpleCursorAdapter(this, R.layout.row, cursor, FROM, TO);
 			
 			adapter.setViewBinder(VIEW_BINDER);
+			
+			((TextView)findViewById(android.R.id.empty)).setText("Empty Timeline");
+			setTitle(R.string.timeline);
 
 			list.setAdapter(adapter);
+			
 		} catch (Exception e) {
 
 			Log.e(TAG, "Error opening timeline", e);
