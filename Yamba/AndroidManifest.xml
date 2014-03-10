@@ -20,28 +20,27 @@
         <activity
             android:name="com.example.yamba.StatusActivity"
             android:label="@string/app_name" >
+        </activity>
+
+        <service android:name="com.example.yamba.UpdaterService" />
+        <service android:name="com.example.yamba.RefreshService" />
+
+        <activity android:name="com.example.yamba.TimelineActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-        <service android:name="com.example.yamba.UpdaterService" />
-        <service android:name="com.example.yamba.RefreshService" />
-
-        <activity android:name="com.example.yamba.TimelineActivity" />
-        <activity android:name="com.example.yamba.PrefsActivity" />
         
+        
+        <activity android:name="com.example.yamba.PrefsActivity" />
 
         <receiver android:name="com.example.yamba.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        
     </application>
 
 </manifest>

@@ -1,10 +1,13 @@
 package com.example.yamba;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -38,11 +41,13 @@ public class TimelineActivity extends ListActivity {
 
 			
 			
+			
+			
 			adapter = new SimpleCursorAdapter(this, R.layout.row, cursor, FROM, TO);
 			
 			adapter.setViewBinder(VIEW_BINDER);
 			
-			((TextView)findViewById(android.R.id.empty)).setText("Empty Timeline");
+	
 			setTitle(R.string.timeline);
 
 			list.setAdapter(adapter);
@@ -86,6 +91,74 @@ public class TimelineActivity extends ListActivity {
 		
 
 	};
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+
+		getMenuInflater().inflate(R.menu.menu, menu);
+
+		return true;
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// Service intent is created with a context, and a reference to a
+		// service class
+
+		Intent intent;
+
+		switch (item.getItemId()) {
+
+		case R.id.item_start_service:
+
+			intent = new Intent(this, UpdaterService.class);
+
+			startService(intent);
+
+			return true; // button was handled
+
+		case R.id.item_stop_service:
+
+			intent = new Intent(this, UpdaterService.class);
+
+			stopService(intent);
+
+			return true; // button was handled
+
+		case R.id.item_refresh:
+
+			intent = new Intent(this, RefreshService.class);
+
+			startService(intent);
+
+			return true;
+
+		case R.id.item_prefs:
+
+			startActivity(new Intent(this,PrefsActivity.class));
+
+			return true;
+			
+		
+		case R.id.item_timeline:
+			startActivity(new Intent(this,TimelineActivity.class));
+			
+			return true;
+		
+			
+		
+
+		default:
+
+			return false; // button was not handled
+
+		}
+
+	}
 	
 }
 
