@@ -1,6 +1,6 @@
 package com.example.yamba;
 
-
+import java.util.List;
 
 import winterwell.jtwitter.Twitter.Status;
 import android.content.ContentValues;
@@ -37,6 +37,8 @@ public class StatusData {
 
 	}
 
+	
+
 	public void insert(Status status) {
 
 		db = dbHelper.getWritableDatabase();
@@ -61,15 +63,13 @@ public class StatusData {
 	}
 
 	public Cursor query() {
-		
+
 		db = dbHelper.getReadableDatabase();
-		
-		Cursor cursor = db.query(TABLE, null, null, null, null, null,C_CREATED_AT + " DESC"); // SELECT * from status
-		
-		
-		Log.d(TAG,"Got cursor with columns: " );
-		
-		
+
+		Cursor cursor = db.query(TABLE, null, null, null, null, null,
+				C_CREATED_AT + " DESC"); // SELECT * from status
+
+		Log.d(TAG, "Got cursor with columns: ");
 
 		return cursor;
 

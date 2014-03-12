@@ -43,14 +43,7 @@ public class UpdaterService extends Service {
 
 					while (running) {
 
-						List<Status> timeLine = ((YambaApp) getApplication())
-								.getTwitter().getPublicTimeline();
-
-						for (Status status : timeLine) {
-							Log.d(LOG_TAG, String.format("%s: %s",
-									status.user.name, status.text));
-						}
-
+						((YambaApp) getApplication()).pullAndInsert();
 
 						int delay = Integer
 								.parseInt(((YambaApp) getApplication()).prefs
@@ -62,10 +55,6 @@ public class UpdaterService extends Service {
 
 				catch (InterruptedException e) {
 					Log.e(LOG_TAG, "Updater interrupted", e);
-				}
-
-				catch (TwitterException e) {
-					// TODO: handle exception
 				}
 			}
 		}.start();

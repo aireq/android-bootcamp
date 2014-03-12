@@ -1,7 +1,10 @@
 package com.example.yamba;
 
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -27,6 +30,7 @@ public class TimelineActivity extends ListActivity {
 	static final String TAG = "TimelineActivity";
 
 	SimpleCursorAdapter adapter;
+	TimelineReciever receiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +133,8 @@ public class TimelineActivity extends ListActivity {
 			intent = new Intent(this, RefreshService.class);
 
 			startService(intent);
+			
+			
 
 			return true;
 
@@ -151,5 +157,56 @@ public class TimelineActivity extends ListActivity {
 		}
 
 	}
+	
+	
+	
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		
+		unregisterReceiver(receiver);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		//lazy initialization of receiver
+		if(receiver == null) receiver = new TimelineReciever();
+				
+		
+		registerReceiver(receiver, new IntentFilter(YambaApp.ACTION_NEW_STATUS));
+		
+		
+	}
+
+
+
+
+	class TimelineReciever extends BroadcastReceiver 
+	{
+		@Override
+		public void onReceive(Context context, Intent intent) 
+		{
+			//update the cursor on receive
+			cursor = ((YambaApp) getApplication()).statusData.query();
+			adapter.changeCursor(cursor);
+			
+			Log.d(TAG,"TimelineReciver onReceive changeCursor with count "+intent.getIntExtra("count", 0));
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 
 }
