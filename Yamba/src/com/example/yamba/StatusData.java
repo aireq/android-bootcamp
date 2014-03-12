@@ -61,19 +61,10 @@ public class StatusData {
 	}
 
 	public Cursor query() {
-
-	
-
+		
 		db = dbHelper.getReadableDatabase();
 		
-		
-
-		Cursor cursor = db.query(TABLE, null, null, null, null, null,
-				C_CREATED_AT + " DESC"); // SELECT * from status
-		
-
-		
-		
+		Cursor cursor = db.query(TABLE, null, null, null, null, null,C_CREATED_AT + " DESC"); // SELECT * from status
 		
 		
 		Log.d(TAG,"Got cursor with columns: " );
