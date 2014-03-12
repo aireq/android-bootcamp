@@ -67,16 +67,27 @@ public class YambaApp extends Application implements
 	public int pullAndInsert() {
 
 		int newStatsuCount = 0;
+		
+		long latestTimeStamp = -1;
 
 		try {
 			List<Status> timeLine = getTwitter().getPublicTimeline();
 			for (Status status : timeLine) {
 
 				statusData.insert(status);
-
-				if (status.createdAt.getTime() > lastTimeStampSeen) {
+				
+				
+				if (status.createdAt.getTime() > this.lastTimeStampSeen) 
+				{
 					newStatsuCount++;
-					lastTimeStampSeen = status.createdAt.getTime();
+					
+					if(status.createdAt.getTime()>latestTimeStamp)
+					{
+						latestTimeStamp = status.createdAt.getTime();
+					}
+					
+					
+					
 				}
 
 				Log.d(TAG,
@@ -93,6 +104,8 @@ public class YambaApp extends Application implements
 		if (newStatsuCount > 0) {
 			sendBroadcast(new Intent(ACTION_NEW_STATUS).putExtra("count", newStatsuCount));
 		}
+		
+		this.lastTimeStampSeen = latestTimeStamp;
 
 		return newStatsuCount;
 
