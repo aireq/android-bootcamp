@@ -23,7 +23,11 @@
         </activity>
 
         <service android:name="com.example.yamba.UpdaterService" />
-        <service android:name="com.example.yamba.RefreshService" />
+        <service android:name="com.example.yamba.RefreshService" >
+            <intent-filter>
+                <action android:name="com.example.yamba.RefreshService" />
+            </intent-filter>
+        </service>
 
         <activity android:name="com.example.yamba.TimelineActivity" >
             <intent-filter>
@@ -32,12 +36,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        
         <activity android:name="com.example.yamba.PrefsActivity" />
 
-        <receiver android:name="com.example.yamba.BootReceiver" >
+        <receiver android:name="com.example.yamba.RefreshScheduleReceiver" >
             <intent-filter>
+                <action android:name="com.example.yamba.RefreshAlarm" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

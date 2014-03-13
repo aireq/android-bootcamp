@@ -18,6 +18,9 @@ public class YambaApp extends Application implements
 	// this is used to identify the broadcast reciver
 	public static final String ACTION_NEW_STATUS = "com.example.yamba.NEW_STATUS";
 
+	public static final String ACTION_REFRESH = "com.example.yamba.RefreshService";
+	public static final String ACTION_REFRESH_ALARM = "com.example.yamba.RefreshAlarm";
+
 	static final String TAG = "YambaApp";
 	private Twitter twitter;
 
@@ -54,10 +57,14 @@ public class YambaApp extends Application implements
 		Log.d(TAG, "onCreate");
 	}
 
+	static final Intent refreshAlarm = new Intent(ACTION_REFRESH_ALARM);
+
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		twitter = null;
+		
+		sendBroadcast(refreshAlarm);
 
 		Log.d(TAG, "onSharedPreferenceChanged for key:" + key);
 	}
@@ -67,7 +74,7 @@ public class YambaApp extends Application implements
 	public int pullAndInsert() {
 
 		int newStatsuCount = 0;
-		
+
 		long latestTimeStamp = -1;
 
 		try {
@@ -75,19 +82,14 @@ public class YambaApp extends Application implements
 			for (Status status : timeLine) {
 
 				statusData.insert(status);
-				
-				
-				if (status.createdAt.getTime() > this.lastTimeStampSeen) 
-				{
+
+				if (status.createdAt.getTime() > this.lastTimeStampSeen) {
 					newStatsuCount++;
-					
-					if(status.createdAt.getTime()>latestTimeStamp)
-					{
+
+					if (status.createdAt.getTime() > latestTimeStamp) {
 						latestTimeStamp = status.createdAt.getTime();
 					}
-					
-					
-					
+
 				}
 
 				Log.d(TAG,
@@ -100,11 +102,12 @@ public class YambaApp extends Application implements
 			Log.e(TAG, "Faiuled to pull statuses", e);
 		}
 
-		//broadcasts that new tweets are received
+		// broadcasts that new tweets are received
 		if (newStatsuCount > 0) {
-			sendBroadcast(new Intent(ACTION_NEW_STATUS).putExtra("count", newStatsuCount));
+			sendBroadcast(new Intent(ACTION_NEW_STATUS).putExtra("count",
+					newStatsuCount));
 		}
-		
+
 		this.lastTimeStampSeen = latestTimeStamp;
 
 		return newStatsuCount;
