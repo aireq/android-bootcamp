@@ -4,6 +4,9 @@ import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
@@ -15,11 +18,41 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class StatusActivity extends Activity {
+public class StatusActivity extends Activity implements LocationListener {
 
-	static final String LOG_TAG = "StatusActivity";
+	static final String TAG = "StatusActivity";
+	static final String PROVIDER = LocationManager.GPS_PROVIDER;
 
 	EditText status_editText;
+	LocationManager locationManager;
+	Location location;
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	
+		Log.d(TAG,"onPause removing location updates");
+		
+		locationManager.removeUpdates(this);
+	}
+
+
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		
+		Log.d(TAG,"onResume requesting locating upates");
+		
+		locationManager.requestLocationUpdates(PROVIDER, 30, 1000, this);
+		
+		
+	}
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +68,13 @@ public class StatusActivity extends Activity {
 
 		// gets references to widgets
 		status_editText = (EditText) findViewById(R.id.editStatusText);
+		
+		
+		locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+		
+		location = locationManager.getLastKnownLocation(PROVIDER);
+		
+		
 
 	}
 
@@ -55,7 +95,7 @@ public class StatusActivity extends Activity {
 
 		// TODO Auto-generated method stub
 		final String statusText = status_editText.getText().toString();
-		Log.d(LOG_TAG, "Posting new status: " + statusText);
+		Log.d(TAG, "Posting new status: " + statusText);
 
 		new PostToTwitter().execute(statusText);
 
@@ -74,15 +114,19 @@ public class StatusActivity extends Activity {
 				String pass = "password";
 				Twitter twitter = new Twitter(user, pass);
 				twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+				
+				
+				
 				twitter.setStatus(statusText[0]);
+				
 
-				Log.d(LOG_TAG, "Successfuly posted status: " + statusText[0]);
+				Log.d(TAG, "Successfuly posted status: " + statusText[0]);
 
 				return "Posted Status Succeeded";
 
 			} catch (TwitterException e) {
 
-				Log.e(LOG_TAG, "Error posting status", e);
+				Log.e(TAG, "Error posting status", e);
 
 				return "Posting Status Failed!";
 
@@ -98,6 +142,34 @@ public class StatusActivity extends Activity {
 					.show();
 		}
 
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		this.location = location;
+		Log.d(TAG,"onLocationChanged"+location.toString());
+	}
+
+
+
+	@Override
+	public void onProviderDisabled(String provider) {
+	
+		
+	}
+
+
+
+	@Override
+	public void onProviderEnabled(String provider) {
+	
+	}
+
+
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		
 	}
 
 }
