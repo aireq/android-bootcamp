@@ -33,15 +33,11 @@ public class StatusData {
 	public StatusData(Context context) {
 		this.context = context;
 
-		dbHelper = new DbHelper();
+		dbHelper = new DbHelper(context);
 
 	}
 
-	
-
 	public void insert(Status status) {
-
-		db = dbHelper.getWritableDatabase();
 
 		// this is bad, will allow sync injection
 		// also slow because
@@ -57,70 +53,18 @@ public class StatusData {
 		values.put(C_USER, status.user.name);
 		values.put(C_TEXT, status.text);
 
-		db.insertWithOnConflict(TABLE, null, values,
-				SQLiteDatabase.CONFLICT_IGNORE);
+		context.getContentResolver().insert(StatusProvider.CONTENT_URI, values);
 
 	}
 
 	public Cursor query() {
 
-		db = dbHelper.getReadableDatabase();
-
-		Cursor cursor = db.query(TABLE, null, null, null, null, null,
-				C_CREATED_AT + " DESC"); // SELECT * from status
-
-		Log.d(TAG, "Got cursor with columns: ");
-
-		return cursor;
+		return context.getContentResolver().query(StatusProvider.CONTENT_URI,
+				null, null, null, StatusData.C_CREATED_AT + " DESC");
 
 	}
 
 	// this is an inner class because it doesn't needs to be exposed outside
 	// StatusData
-
-	class DbHelper extends SQLiteOpenHelper {
-
-		public DbHelper() {
-
-			// Factory is not needed in this case
-			super(context, DB_NAME, null, DB_VERSION);
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			// This happens only once
-			// Called to create a database
-
-			String sql;
-
-			sql = String.format("create table %s"
-					+ "(%s int primary key, %s int,%s text, %s text)", TABLE,
-					C_ID, C_CREATED_AT, C_USER, C_TEXT);
-
-			Log.d(TAG, "onCreate");
-
-			try {
-				db.execSQL(sql);
-
-				Log.d(TAG, "Created table:" + sql);
-
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// Typicaly ALTER TABLE statement to keep existing data!!!
-
-			// Can do this for development
-			// Will drop and recreate the table if the database is updated
-			db.execSQL("drop if exists " + TABLE);
-			onCreate(db);
-
-		}
-
-	}
 
 }
