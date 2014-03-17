@@ -25,7 +25,9 @@ public class YambaApp extends Application implements
 	private Twitter twitter;
 
 	SharedPreferences prefs;
-	StatusData statusData;
+
+	
+	
 
 	public Twitter getTwitter() {
 
@@ -52,7 +54,7 @@ public class YambaApp extends Application implements
 
 		prefs.registerOnSharedPreferenceChangeListener(this);
 
-		statusData = new StatusData(this);
+
 
 		Log.d(TAG, "onCreate");
 	}
@@ -81,7 +83,7 @@ public class YambaApp extends Application implements
 			List<Status> timeLine = getTwitter().getPublicTimeline();
 			for (Status status : timeLine) {
 
-				statusData.insert(status);
+				getContentResolver().insert(StatusProvider.CONTENT_URI, StatusProvider.statusToValues(status));
 
 				if (status.createdAt.getTime() > this.lastTimeStampSeen) {
 					newStatsuCount++;
@@ -89,12 +91,10 @@ public class YambaApp extends Application implements
 					if (status.createdAt.getTime() > latestTimeStamp) {
 						latestTimeStamp = status.createdAt.getTime();
 					}
-
 				}
 
-				Log.d(TAG,
-						String.format("%s: %s", status.user.name, status.text));
-
+				Log.d(TAG, String.format("%s: %s", status.user.name, status.text));
+				
 			}
 
 		} catch (TwitterException e) {

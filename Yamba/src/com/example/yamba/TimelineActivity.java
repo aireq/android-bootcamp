@@ -21,8 +21,8 @@ public class TimelineActivity extends ListActivity {
 
 	Cursor cursor;
 
-	static final String[] FROM = { StatusData.C_USER, StatusData.C_TEXT,
-			StatusData.C_CREATED_AT };
+	static final String[] FROM = { StatusProvider.C_USER, StatusProvider.C_TEXT,
+		StatusProvider.C_CREATED_AT };
 
 	static final int[] TO = { R.id.text_user, R.id.text_text,
 			R.id.text_created_at };
@@ -43,8 +43,11 @@ public class TimelineActivity extends ListActivity {
 
 			// Sets the Title
 			setTitle(R.string.timeline);
-
-			cursor = ((YambaApp) getApplication()).statusData.query();
+			
+	
+			
+			cursor = getContentResolver().query(StatusProvider.CONTENT_URI,
+					null, null, null, StatusProvider.C_CREATED_AT + " DESC");
 
 			// Creates a new SimpleCursorAdapter
 			adapter = new SimpleCursorAdapter(this, R.layout.row, cursor, FROM,
@@ -77,7 +80,7 @@ public class TimelineActivity extends ListActivity {
 			else {
 
 				long time = cursor.getLong(cursor
-						.getColumnIndex(StatusData.C_CREATED_AT));
+						.getColumnIndex(StatusProvider.C_CREATED_AT));
 				CharSequence relTime = DateUtils
 						.getRelativeTimeSpanString(time);
 
@@ -192,7 +195,12 @@ public class TimelineActivity extends ListActivity {
 		public void onReceive(Context context, Intent intent) 
 		{
 			//update the cursor on receive
-			cursor = ((YambaApp) getApplication()).statusData.query();
+			
+			
+			
+			cursor = getContentResolver().query(StatusProvider.CONTENT_URI,
+					null, null, null, StatusProvider.C_CREATED_AT + " DESC");
+			
 			adapter.changeCursor(cursor);
 			
 			Log.d(TAG,"TimelineReciver onReceive changeCursor with count "+intent.getIntExtra("count", 0));

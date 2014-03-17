@@ -1,5 +1,6 @@
 package com.example.yamba;
 
+import winterwell.jtwitter.Twitter.Status;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -11,8 +12,18 @@ public class StatusProvider extends ContentProvider {
 
 	public static final String AUTHORITY = "content://com.example.yamba.provider";
 	public static final Uri CONTENT_URI = Uri.parse(AUTHORITY);
+	public static final String C_ID = "_id";
+	public static final String C_CREATED_AT = "created_at";
+	public static final String C_USER = "username";
+	public static final String C_TEXT = "status_text";
+	public static final String DB_NAME = "timeline.db";
+	public static final int DB_VERSION = 1;
+	public static final String TABLE = "status";
+	
+	
 
 	public static final String TAG = "StatusProvider";
+	
 	SQLiteDatabase db;
 	DbHelper dbHelper;
 
@@ -41,7 +52,7 @@ public class StatusProvider extends ContentProvider {
 
 		db = dbHelper.getWritableDatabase();
 
-		long id = db.insertWithOnConflict(StatusData.TABLE, null, values,
+		long id = db.insertWithOnConflict(TABLE, null, values,
 				SQLiteDatabase.CONFLICT_IGNORE);
 
 		if (id != -1) {
@@ -71,13 +82,30 @@ public class StatusProvider extends ContentProvider {
 		db = dbHelper.getReadableDatabase();
 
 		// SELECT * from status
-		Cursor cursor = db.query(StatusData.TABLE, projection, selection,
+		Cursor cursor = db.query(TABLE, projection, selection,
 				selectionArgs, null, null, sortOrder);
 
 		Log.d(TAG, "Got cursor with columns: ");
 
 		return cursor;
 
+	}
+	
+	
+	
+	public static ContentValues statusToValues(Status status)
+	{
+		ContentValues values = new ContentValues();
+		values.put(C_ID, status.id);
+
+		// stores values as milliseconds since 1/1/1970
+		values.put(C_CREATED_AT, status.createdAt.getTime());
+
+		values.put(C_USER, status.user.name);
+		values.put(C_TEXT, status.text);
+		
+		
+		return values;
 	}
 
 }

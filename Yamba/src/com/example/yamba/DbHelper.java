@@ -12,7 +12,7 @@ class DbHelper extends SQLiteOpenHelper {
 
 	public DbHelper(Context context) 
 	{
-		super(context, StatusData.DB_NAME, null, StatusData.DB_VERSION);
+		super(context, StatusProvider.DB_NAME, null, StatusProvider.DB_VERSION);
 	}
 
 	public static final String TAG = "DbHelper";
@@ -27,8 +27,8 @@ class DbHelper extends SQLiteOpenHelper {
 		String sql;
 
 		sql = String.format("create table %s"
-				+ "(%s int primary key, %s int,%s text, %s text)", StatusData.TABLE, StatusData.C_ID,
-				StatusData.C_CREATED_AT, StatusData.C_USER, StatusData.C_TEXT);
+				+ "(%s int primary key, %s int,%s text, %s text)", StatusProvider.TABLE, StatusProvider.C_ID,
+				StatusProvider.C_CREATED_AT, StatusProvider.C_USER, StatusProvider.C_TEXT);
 
 		Log.d(TAG, "onCreate");
 
@@ -49,7 +49,7 @@ class DbHelper extends SQLiteOpenHelper {
 
 		// Can do this for development
 		// Will drop and recreate the table if the database is updated
-		db.execSQL("drop if exists " + StatusData.TABLE);
+		db.execSQL("drop if exists " + StatusProvider.TABLE);
 		onCreate(db);
 
 	}
