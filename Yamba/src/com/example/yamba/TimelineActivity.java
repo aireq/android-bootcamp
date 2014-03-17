@@ -1,10 +1,12 @@
 package com.example.yamba;
 
 import android.app.ListActivity;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -16,6 +18,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
+import android.app.LoaderManager;
+
 
 public class TimelineActivity extends ListActivity {
 
@@ -44,10 +48,14 @@ public class TimelineActivity extends ListActivity {
 			// Sets the Title
 			setTitle(R.string.timeline);
 			
+			
+			//Old way deprecated
+			cursor = managedQuery(StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT + " DESC");
+			
 	
 			
-			cursor = getContentResolver().query(StatusProvider.CONTENT_URI,
-					null, null, null, StatusProvider.C_CREATED_AT + " DESC");
+			//cursor = getContentResolver().query(StatusProvider.CONTENT_URI,
+					//null, null, null, StatusProvider.C_CREATED_AT + " DESC");
 
 			// Creates a new SimpleCursorAdapter
 			adapter = new SimpleCursorAdapter(this, R.layout.row, cursor, FROM,
@@ -210,6 +218,11 @@ public class TimelineActivity extends ListActivity {
 		
 		
 	}
+
+
+
+
+
 	
 	
 	
